@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MegaMakingMachine
 {
-    interface IProducables
+    abstract class Blueprint
     {
-        abstract string Name { get;}
-        IList<Material> RequiredComponents {get; }
+        string name;
+        int complexity;
+        List<Material> requiredItems;
     }
 }

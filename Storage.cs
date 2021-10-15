@@ -9,7 +9,7 @@ namespace MegaMakingMachine
 {
     class Storage
     {
-        List<Material> materialInStorage = new();
+        private readonly List<Material> materialInStorage = new();
         public List<Material> MaterialToFactory { get; set; } = new();
         public Storage() //Storage fills up on creation.  
         {

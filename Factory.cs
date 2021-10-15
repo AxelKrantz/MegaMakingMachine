@@ -10,11 +10,10 @@ namespace MegaMakingMachine
     class Factory
     {
         readonly Storage storage = new();
-        readonly Material material = new();
+        //readonly Material material = new();
         readonly Production production = new();
-        readonly Blueprints blueprints = new();
-
-        public void ShowStorage()
+        //readonly Blueprints blueprints = new();
+         public void ShowStorage()
         {
             storage.ShowStorage();
         }
