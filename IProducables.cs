@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//Materials contains materials. Logically. 
 namespace MegaMakingMachine
 {
-    enum Material
+    interface IProducables
     {
-        steel, rubber, wheel, car, toaster
+        abstract string Name { get;}
+        IList<Material> RequiredComponents {get; }
     }
 }

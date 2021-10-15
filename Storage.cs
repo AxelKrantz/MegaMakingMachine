@@ -5,22 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 
 //Storage handles the storing materials not currently used in production aswell as ways to display it to the user. 
-namespace MultiplicatoryMegaMakingMachine
+namespace MegaMakingMachine
 {
     class Storage
     {
         List<Material> materialInStorage = new();
         public List<Material> MaterialToFactory { get; set; } = new();
-        public Storage()
+        public Storage() //Storage fills up on creation.  
         {
-            materialInStorage.Add(Material.steel);
-            materialInStorage.Add(Material.steel);
-            materialInStorage.Add(Material.steel);
-            materialInStorage.Add(Material.steel);
-            materialInStorage.Add(Material.rubber);
-            materialInStorage.Add(Material.rubber);
-            materialInStorage.Add(Material.rubber);
-            materialInStorage.Add(Material.rubber);
+            int steelInStorage = 6;
+            int rubberInStorage = 6;
+            for (int i = 0; i < steelInStorage; i++)
+            {
+                materialInStorage.Add(Material.steel);
+            }
+            for (int i = 0; i < rubberInStorage; i++)
+            {
+                materialInStorage.Add(Material.rubber);
+            }
         }
         public void ShowStorage()
         {

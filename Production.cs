@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 //Production converts materials to products and makes sure we dont try to produce things we dont have enough items for.
-namespace MultiplicatoryMegaMakingMachine
+namespace MegaMakingMachine
 {
     class Production
     {
-        Material[][] productRequirements = new Material[3][];
-
-       
+        readonly Material[][] productRequirements = new Material[3][];
         List<Material> MaterialsForProduction = new();
         public List<Material> ProductsToStorage = new();
         private List<Material> ProvidedRubber { get; set; } = new();
@@ -20,21 +18,7 @@ namespace MultiplicatoryMegaMakingMachine
 
         public Production()
         {
-            //Filling out our two dimensional array with items.
-            //The First item in each array is what we want to produce, the others are the materials required for that item.
-            productRequirements[0][0] = Material.toaster;
-            productRequirements[0][1] = Material.steel;
-            productRequirements[0][2] = Material.steel;
-            productRequirements[1][0] = Material.wheel;
-            productRequirements[1][1] = Material.steel;
-            productRequirements[1][2] = Material.rubber;
-            productRequirements[2][0] = Material.car;
-            productRequirements[2][1] = Material.wheel;
-            productRequirements[2][2] = Material.wheel;
-            productRequirements[2][3] = Material.wheel;
-            productRequirements[2][4] = Material.wheel;
-            productRequirements[2][5] = Material.steel;
-            productRequirements[2][6] = Material.steel;
+           
         }
 
         //Sorts the items from storage into lists which only hold one type of item each. 
@@ -46,7 +30,7 @@ namespace MultiplicatoryMegaMakingMachine
         }
         public void ProduceGoods()
         {
-            //Här behöver vi loopa igenom våra arrays och lägga in de saker som vi behöver för att producera det 
+            //TODO - Here we need to loop through our item-arrays and insert the items needed for producing an item.
             int requiredSteel = 1; //dessa behöver ändras baserat på antalet av varje sort som krävs. 
             int requiredRubber = 1;
             //foreach (Material.rubber item in productRequirements[0])
