@@ -9,68 +9,65 @@ namespace MegaMakingMachine
 {
     class Production
     {
-        List<Material> MaterialsForProduction = new();
-        public List<Material> ProductsToStorage = new();
-        private List<Material> ProvidedRubber { get; set; } = new();
-        private List<Material> ProvidedSteel { get; set; } = new();
-        private List<Material> ProvidedWheel { get; set; } = new();
+        List<Material> materialsForProduction = new();
+        public List<Material> productsToStorage = new();
+        List<Material> itemsReservedForProduct = new();
+        Wheel wheel = new();
+        Car car = new();
+        List<object> blueprints = new();
         public Production()
         {
-
+            List<object> blueprints = new() { car, wheel };
         }
-        //Sorts the items from storage into lists which only hold one type of item each. 
         public void GetMaterial(List<Material> materialsToFactory)
         {
-            MaterialsForProduction = materialsToFactory;
-            ProvidedRubber.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.rubber)));
-            ProvidedSteel.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.steel)));
+            materialsForProduction.AddRange(materialsToFactory);
         }
         //TODO Sort blueprints by count
-        //public void SortBlueprints()
-        //{
-        //    var sortedBlueprints = _blueprints.OrderByDescending(x => x.complexity);
-        //}
-
-        //TODO Check blueprints in order if all components are present in mater
+        public void CheckMaterialRequirements()
+        {
+            for (int i1 = 0; i1 < blueprints.Count; i1++)
+            {
+                var choosenBlueprint = blueprints.ElementAt(i1.);
+                for (int y = 0; y < choosenBlueprint.requiredMaterial.Count; y++)
+                {
+                    for (int i = materialsForProduction.Count - 1; i >= 0; i--)
+                    {
+                        if (choosenBlueprint.requiredMaterial.ElementAt(y) == materialsForProduction[i])
+                        {
+                            itemsReservedForProduct.Add(materialsForProduction[i]);
+                            materialsForProduction.RemoveAt(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
         public void ProduceGoods()
         {
-            Car bilen = new Car();
-            Wheel hjulet = new Wheel();
-            var choosenBlueprint = hjulet;
-            int[] taggedItems = new int[10];
-            for (int i = 0; i < choosenBlueprint.requiredMaterial.Count; i++)
+            var choosenBlueprint = wheel;
+            bool readyForProduction = true;
+            if (itemsReservedForProduct.Count == choosenBlueprint.requiredMaterial.Count)
             {
-                if (choosenBlueprint.requiredMaterial.ElementAt(i) )
-                {
-
-                }
-            }
-            for (int i = 0; i < bilen.requiredMaterial.Count; i++)
-            {
-                MaterialsForProduction.Remove(bilen.requiredMaterial.ElementAt(i));
-                Console.WriteLine(bilen.requiredMaterial.ElementAt(i));
-            }
-                Console.WriteLine($"You made a {new Wheel()}");
-                ProductsToStorage.Add(Material.wheel);
-                for (int i = 0; i < 3; i++)
-                {
-                    ProvidedRubber.RemoveAt(0);
-                }
-                for (int i = 0; i < 3; i++)
-                {
-                    ProvidedSteel.RemoveAt(0);
-                }
+                Console.WriteLine($"You made a {choosenBlueprint.name}");
+                productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.name));
+                //TODO return leftover materials to storage.
                 System.Threading.Thread.Sleep(2500);
                 Console.WriteLine("Returning items to storage");
                 System.Threading.Thread.Sleep(2500);
+            }
+            else
+            {
+                materialsForProduction.AddRange(itemsReservedForProduct);
+                itemsReservedForProduct.Clear();
+                readyForProduction = false;
+            }
         }
         public List<Material> SendProductsToStorage()
         {
-            ProductsToStorage.AddRange(ProvidedRubber);
-            ProductsToStorage.AddRange(ProvidedSteel);
-            ProvidedRubber.Clear();
-            ProvidedSteel.Clear();
-            return ProductsToStorage;
+            productsToStorage.AddRange(materialsForProduction);
+            materialsForProduction.Clear();
+            return productsToStorage;
         }
     }
 }

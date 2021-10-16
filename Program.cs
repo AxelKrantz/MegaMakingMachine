@@ -8,6 +8,7 @@ while (true)
     stoneridge.ShowStorage();
     stoneridge.SendMaterialToProduction();
     stoneridge.ClearSentMaterials();
+    stoneridge.CheckMaterialRequirements();
     stoneridge.ProduceGoods();
     stoneridge.SendProductToStorage();
 }

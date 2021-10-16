@@ -23,20 +23,25 @@ namespace MegaMakingMachine
         public void SendMaterialToProduction()
         {
             production.GetMaterial(storage.UserPicksMaterial());
-            production.ProductsToStorage.Clear();
+            production.productsToStorage.Clear();
         }
-        public void SendProductToStorage()
+        public void ClearSentMaterials()
         {
-            storage.GetMaterial(production.SendProductsToStorage());
-            production.ProductsToStorage.Clear();
+            storage.MaterialToFactory.Clear();
+            production.productsToStorage.Clear();
+        }
+        public void CheckMaterialRequirements()
+        {
+            production.CheckMaterialRequirements();
         }
         public void ProduceGoods()
         {
             production.ProduceGoods();
         }
-        public void ClearSentMaterials()
+        public void SendProductToStorage()
         {
-            storage.MaterialToFactory.Clear();
+            storage.GetMaterial(production.SendProductsToStorage());
+            production.productsToStorage.Clear();
         }
     }
 }
