@@ -9,7 +9,7 @@ namespace MegaMakingMachine
 {
     class Storage
     {
-        private readonly List<Material> materialInStorage = new();
+        private List<Material> materialInStorage = new();
         public List<Material> MaterialToFactory { get; set; } = new();
         public Storage() //Storage fills up on creation.  
         {
@@ -26,6 +26,7 @@ namespace MegaMakingMachine
         }
         public void ShowStorage()
         {
+            materialInStorage.Sort();
             Console.Clear();
             Console.WriteLine("These items are currently in storage:");
             foreach (Material item in materialInStorage)
@@ -41,7 +42,7 @@ namespace MegaMakingMachine
         public List<Material> UserPicksMaterial()
         {
             MaterialToFactory.Clear();
-            string selection = "";
+            string selection = "";  
             while (true)
             {
                 Console.WriteLine("\nType the material you want to send to production. To start production: type \"produce\"");

@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//The factory in itself is basically a shell containing instances of all the different areas of the factory as well as methods to move inventory between the different areas of the factory.
+//The factory in itself is basically a shell containing instances of all the different areas of the factory
+//as well as methods to move inventory between the different areas of the factory.
 namespace MegaMakingMachine
 {
     class Factory
     {
         readonly Storage storage = new();
-        //readonly Material material = new();
         readonly Production production = new();
-        //readonly Blueprints blueprints = new();
          public void ShowStorage()
         {
             storage.ShowStorage();
@@ -35,7 +34,7 @@ namespace MegaMakingMachine
         {
             production.ProduceGoods();
         }
-        public void ClearInventoryList()
+        public void ClearSentMaterials()
         {
             storage.MaterialToFactory.Clear();
         }

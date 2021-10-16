@@ -9,7 +9,6 @@ namespace MegaMakingMachine
 {
     class Production
     {
-        readonly Material[][] productRequirements = new Material[3][];
         List<Material> MaterialsForProduction = new();
         public List<Material> ProductsToStorage = new();
         private List<Material> ProvidedRubber { get; set; } = new();
@@ -26,30 +25,44 @@ namespace MegaMakingMachine
             ProvidedRubber.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.rubber)));
             ProvidedSteel.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.steel)));
         }
+        //TODO Sort blueprints by count
+        //public void SortBlueprints()
+        //{
+        //    var sortedBlueprints = _blueprints.OrderByDescending(x => x.complexity);
+        //}
+
+        //TODO Check blueprints in order if all components are present in mater
         public void ProduceGoods()
         {
-            //TODO - Here we need to loop through our item-arrays and insert the items needed for producing an item.
-            int requiredSteel = 1; //dessa behöver ändras baserat på antalet av varje sort som krävs. 
-            int requiredRubber = 1;
-            //foreach (Material.rubber item in productRequirements[0])
-            //{
-
-            //
-            if (ProvidedRubber.Count >= requiredRubber && ProvidedSteel.Count >= requiredSteel)
+            Car bilen = new Car();
+            Wheel hjulet = new Wheel();
+            var choosenBlueprint = hjulet;
+            int[] taggedItems = new int[10];
+            for (int i = 0; i < choosenBlueprint.requiredMaterial.Count; i++)
             {
-                //Console.WriteLine($"You made a {productRequirements[i][0]}");
-                Console.WriteLine($"You made a wheel");
+                if (choosenBlueprint.requiredMaterial.ElementAt(i) )
+                {
+
+                }
+            }
+            for (int i = 0; i < bilen.requiredMaterial.Count; i++)
+            {
+                MaterialsForProduction.Remove(bilen.requiredMaterial.ElementAt(i));
+                Console.WriteLine(bilen.requiredMaterial.ElementAt(i));
+            }
+                Console.WriteLine($"You made a {new Wheel()}");
                 ProductsToStorage.Add(Material.wheel);
-                for (int i = 0; i < requiredRubber; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     ProvidedRubber.RemoveAt(0);
                 }
-                for (int i = 0; i < requiredSteel; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     ProvidedSteel.RemoveAt(0);
                 }
                 System.Threading.Thread.Sleep(2500);
-            }
+                Console.WriteLine("Returning items to storage");
+                System.Threading.Thread.Sleep(2500);
         }
         public List<Material> SendProductsToStorage()
         {
