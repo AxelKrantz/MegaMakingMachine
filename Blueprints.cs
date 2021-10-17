@@ -6,27 +6,40 @@ using System.Threading.Tasks;
 
 namespace MegaMakingMachine
 {
-    class Blueprints
+    abstract class Blueprints
     {
-        public List<Material> _requiredMaterials = new();
-        public string _name;
+        public List<Material> RequiredMaterial { get; set; }
+        public string Name { get; set; }
     }
     class Car : Blueprints
     {
-        public string name;
-        public List<Material> requiredMaterial = new() { Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
+        public new string Name
+        {
+            get { return Name; }
+            init { Name = "car"; }
+        }
+        //public List<Material> RequiredMaterial :{ Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
         public Car()
         {
-           name = "car";
+            
+            RequiredMaterial = new List<Material> { Material.steel, Material.steel };
         }
+
     }
+
+
     class Wheel : Blueprints
     {
-        public string name;
-        public List<Material> requiredMaterial = new() {Material.rubber, Material.steel };
+        public string Name
+        {
+            get { return Name; }
+            init { }
+        }
+        //public List<Material> RequiredMaterial = new() { Material.rubber, Material.steel };
         public Wheel()
         {
-            name = "wheel";
+            Name = "wheel";
+            RequiredMaterial = new List<Material> { Material.steel, Material.rubber };
         }
     }
     // Make it possible to add classes with a method?
