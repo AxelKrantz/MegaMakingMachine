@@ -48,15 +48,25 @@ namespace MegaMakingMachine
                 Console.WriteLine("\nType the material you want to send to production. To start production: type \"produce\"");
                 selection = Console.ReadLine().ToLower();
                 if (selection == "produce") return MaterialToFactory;
-                var materialChoice = Enum.Parse(typeof(Material), selection);
-                for (int i = 0; i < materialInStorage.Count; i++)
+                try
                 {
-                    if ((Material)materialChoice == materialInStorage[i])
+                    var materialChoice = Enum.Parse(typeof(Material), selection);
+                    for (int i = 0; i < materialInStorage.Count; i++)
                     {
-                        MaterialToFactory.Add(materialInStorage[i]);
-                        materialInStorage.RemoveAt(i);
-                        break;
+                        if ((Material)materialChoice == materialInStorage[i])
+                        {
+                            MaterialToFactory.Add(materialInStorage[i]);
+                            materialInStorage.RemoveAt(i);
+                            break;
+                        }
                     }
+                    
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Incorrect Entry, try again.");
+                    selection = null;
+                    System.Threading.Thread.Sleep(1500);
                 }
                 ShowStorage();
             }

@@ -63,10 +63,8 @@ namespace MegaMakingMachine
                     {
 
                         _choosenBlueprint = null;
-                        Console.WriteLine("DEBUGG ItemsReservedForProduct was not same length as choosenBlueprint.RequireMaterial");
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();
-                        System.Threading.Thread.Sleep(2000);
                         if (i1 == blueprints.Count-1)
                         {
                             Console.WriteLine("Could not find any suitable blueprints.");
