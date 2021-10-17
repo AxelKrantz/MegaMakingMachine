@@ -9,55 +9,89 @@ namespace MegaMakingMachine
 {
     class Production
     {
-        readonly Material[][] productRequirements = new Material[3][];
-        List<Material> MaterialsForProduction = new();
-        public List<Material> ProductsToStorage = new();
-        private List<Material> ProvidedRubber { get; set; } = new();
-        private List<Material> ProvidedSteel { get; set; } = new();
-        private List<Material> ProvidedWheel { get; set; } = new();
+        List<Material> materialsForProduction = new();
+        public List<Material> productsToStorage = new();
+        List<Material> itemsReservedForProduct = new();
+        Wheel wheel = new();
+        Car car = new();
+        List<Blueprints> blueprints = new();
+        Blueprints _choosenBlueprint;
+
         public Production()
         {
-
+            blueprints.Add(car);
+            blueprints.Add(wheel);
         }
-        //Sorts the items from storage into lists which only hold one type of item each. 
         public void GetMaterial(List<Material> materialsToFactory)
         {
-            MaterialsForProduction = materialsToFactory;
-            ProvidedRubber.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.rubber)));
-            ProvidedSteel.AddRange(MaterialsForProduction.FindAll(x => x.Equals(Material.steel)));
+            materialsForProduction.AddRange(materialsToFactory);
+        }
+        public void CheckMaterialRequirements()
+        {
+            bool stillCheckingRequirements = true;
+            while (stillCheckingRequirements)
+            {
+
+                for (int i1 = 0; i1 < blueprints.Count; i1++)
+                {
+
+                    var choosenBlueprint = blueprints[i1];
+
+                    for (int y = 0; y < choosenBlueprint.RequiredMaterial.Count; y++)
+                    {
+
+                        for (int i = materialsForProduction.Count - 1; i >= 0; i--)
+                        {
+
+                            if (choosenBlueprint.RequiredMaterial[y] == materialsForProduction[i])
+                            {
+                                itemsReservedForProduct.Add(materialsForProduction[i]);
+                                materialsForProduction.RemoveAt(i);
+                                break;
+                            }
+                        }
+
+                    }
+                    if (itemsReservedForProduct.Count == choosenBlueprint.RequiredMaterial.Count)
+                    {
+                        Console.WriteLine("DEBUGG still checking requirements turned false");
+                        _choosenBlueprint = choosenBlueprint;
+                        System.Threading.Thread.Sleep(2000);
+                        stillCheckingRequirements = false;
+                        break;
+                    }
+                    else
+                    {
+                        _choosenBlueprint = null;
+                        Console.WriteLine("DEBUGG ItemsReservedForProduct was not same length as choosenBlueprint.RequireMaterial");
+                        materialsForProduction.AddRange(itemsReservedForProduct);
+                        itemsReservedForProduct.Clear();
+                        System.Threading.Thread.Sleep(2000);
+                    }
+                    
+                }
+            }
         }
         public void ProduceGoods()
         {
-            //TODO - Here we need to loop through our item-arrays and insert the items needed for producing an item.
-            int requiredSteel = 1; //dessa behöver ändras baserat på antalet av varje sort som krävs. 
-            int requiredRubber = 1;
-            //foreach (Material.rubber item in productRequirements[0])
-            //{
-
-            //
-            if (ProvidedRubber.Count >= requiredRubber && ProvidedSteel.Count >= requiredSteel)
+            var choosenBlueprint = _choosenBlueprint;
+            Console.WriteLine($"Name of choosenBlueprint was: {choosenBlueprint.Name}");
+            System.Threading.Thread.Sleep(2000);
+            if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && choosenBlueprint.Name != null)
             {
-                //Console.WriteLine($"You made a {productRequirements[i][0]}");
-                Console.WriteLine($"You made a wheel");
-                ProductsToStorage.Add(Material.wheel);
-                for (int i = 0; i < requiredRubber; i++)
-                {
-                    ProvidedRubber.RemoveAt(0);
-                }
-                for (int i = 0; i < requiredSteel; i++)
-                {
-                    ProvidedSteel.RemoveAt(0);
-                }
+                Console.WriteLine($"You made a {choosenBlueprint.Name}");
+                productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.Name));
+                //TODO return leftover materials to storage.
+                System.Threading.Thread.Sleep(2500);
+                Console.WriteLine("Returning items to storage");
                 System.Threading.Thread.Sleep(2500);
             }
         }
         public List<Material> SendProductsToStorage()
         {
-            ProductsToStorage.AddRange(ProvidedRubber);
-            ProductsToStorage.AddRange(ProvidedSteel);
-            ProvidedRubber.Clear();
-            ProvidedSteel.Clear();
-            return ProductsToStorage;
+            productsToStorage.AddRange(materialsForProduction);
+            materialsForProduction.Clear();
+            return productsToStorage;
         }
     }
 }
