@@ -9,14 +9,13 @@ namespace MegaMakingMachine
 {
     class Production
     {
-        List<Material> materialsForProduction = new();
+        readonly List<Material> materialsForProduction = new(), itemsReservedForProduct = new();
+        readonly List<Blueprints> blueprints = new();
         public List<Material> productsToStorage = new();
-        List<Material> itemsReservedForProduct = new();
-        Wheel wheel = new();
-        Car car = new();
-        List<Blueprints> blueprints = new();
+        readonly Wheel wheel = new();
+        readonly Car car = new();
+        readonly Nothing nothing = new();
         Blueprints _choosenBlueprint;
-
         public Production()
         {
             blueprints.Add(car);
@@ -54,37 +53,47 @@ namespace MegaMakingMachine
                     }
                     if (itemsReservedForProduct.Count == choosenBlueprint.RequiredMaterial.Count)
                     {
-                        Console.WriteLine("DEBUGG still checking requirements turned false");
                         _choosenBlueprint = choosenBlueprint;
-                        System.Threading.Thread.Sleep(2000);
+                        Console.WriteLine($"Name of choosenBlueprint was: {choosenBlueprint.Name}");
+                        System.Threading.Thread.Sleep(1000);
                         stillCheckingRequirements = false;
                         break;
                     }
                     else
                     {
+
                         _choosenBlueprint = null;
                         Console.WriteLine("DEBUGG ItemsReservedForProduct was not same length as choosenBlueprint.RequireMaterial");
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();
                         System.Threading.Thread.Sleep(2000);
+                        if (i1 == blueprints.Count-1)
+                        {
+                            Console.WriteLine("Could not find any suitable blueprints.");
+                            System.Threading.Thread.Sleep(2000);
+                            _choosenBlueprint = nothing;
+                            stillCheckingRequirements = false;
+                        }
                     }
-                    
                 }
             }
         }
         public void ProduceGoods()
         {
             var choosenBlueprint = _choosenBlueprint;
-            Console.WriteLine($"Name of choosenBlueprint was: {choosenBlueprint.Name}");
-            System.Threading.Thread.Sleep(2000);
-            if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && choosenBlueprint.Name != null)
+            if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && _choosenBlueprint.Name != "nothing")
             {
                 Console.WriteLine($"You made a {choosenBlueprint.Name}");
                 productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.Name));
-                //TODO return leftover materials to storage.
-                System.Threading.Thread.Sleep(2500);
+                itemsReservedForProduct.Clear();
+                System.Threading.Thread.Sleep(1500);
                 Console.WriteLine("Returning items to storage");
-                System.Threading.Thread.Sleep(2500);
+                System.Threading.Thread.Sleep(1500);
+            }
+            else
+            {
+                Console.WriteLine($"You made {_choosenBlueprint.Name}");
+                System.Threading.Thread.Sleep(1500);
             }
         }
         public List<Material> SendProductsToStorage()

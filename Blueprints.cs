@@ -31,5 +31,15 @@ namespace MegaMakingMachine
             RequiredMaterial = new List<Material> { Material.steel, Material.rubber };
         }
     }
+    class Nothing : Blueprints
+    {
+        public override string Name { get; set; }
+        public override List<Material> RequiredMaterial { get; set; }
+        public Nothing()
+        {
+            Name = "nothing";
+            RequiredMaterial = new List<Material> { };
+        }
+    }
     // Make it possible to add classes with a method?
 }
