@@ -26,7 +26,6 @@ namespace MegaMakingMachine
         {
             materialsForProduction.AddRange(materialsToFactory);
         }
-        //TODO Sort blueprints by count
         public void CheckMaterialRequirements()
         {
             bool stillCheckingRequirements = true;
@@ -51,31 +50,32 @@ namespace MegaMakingMachine
                                 break;
                             }
                         }
-                    }
 
+                    }
                     if (itemsReservedForProduct.Count == choosenBlueprint.RequiredMaterial.Count)
                     {
                         Console.WriteLine("DEBUGG still checking requirements turned false");
                         _choosenBlueprint = choosenBlueprint;
                         System.Threading.Thread.Sleep(2000);
                         stillCheckingRequirements = false;
-
+                        break;
                     }
                     else
                     {
+                        _choosenBlueprint = null;
                         Console.WriteLine("DEBUGG ItemsReservedForProduct was not same length as choosenBlueprint.RequireMaterial");
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();
                         System.Threading.Thread.Sleep(2000);
                     }
-
+                    
                 }
             }
         }
         public void ProduceGoods()
         {
             var choosenBlueprint = _choosenBlueprint;
-            Console.WriteLine(choosenBlueprint.Name);
+            Console.WriteLine($"Name of choosenBlueprint was: {choosenBlueprint.Name}");
             System.Threading.Thread.Sleep(2000);
             if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && choosenBlueprint.Name != null)
             {

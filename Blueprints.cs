@@ -8,34 +8,23 @@ namespace MegaMakingMachine
 {
     abstract class Blueprints
     {
-        public List<Material> RequiredMaterial { get; set; }
-        public string Name { get; set; }
+        public virtual List<Material> RequiredMaterial { get; set; }
+        public virtual string Name { get; set; }
     }
     class Car : Blueprints
     {
-        public new string Name
-        {
-            get { return Name; }
-            init { Name = "car"; }
-        }
-        //public List<Material> RequiredMaterial :{ Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
+        public override string Name { get; set; }
+        public override List<Material> RequiredMaterial { get; set; }
         public Car()
         {
-            
-            RequiredMaterial = new List<Material> { Material.steel, Material.steel };
+            Name = "car";
+            RequiredMaterial = new List<Material> { Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
         }
-
     }
-
-
     class Wheel : Blueprints
     {
-        public string Name
-        {
-            get { return Name; }
-            init { }
-        }
-        //public List<Material> RequiredMaterial = new() { Material.rubber, Material.steel };
+        public override string Name { get; set; }
+        public override List<Material> RequiredMaterial { get; set; }
         public Wheel()
         {
             Name = "wheel";
