@@ -7,6 +7,7 @@ while (true)
 {
     stoneridge.ShowStorage();
     stoneridge.SendMaterialToProduction();
+    stoneridge.CreateBlueprint();
     stoneridge.ClearSentMaterials();
     stoneridge.CheckMaterialRequirements();
     stoneridge.ProduceGoods();

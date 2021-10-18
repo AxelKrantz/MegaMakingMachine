@@ -14,18 +14,25 @@ namespace MegaMakingMachine
         public List<Material> productsToStorage = new();
         readonly Wheel wheel = new();
         readonly Car car = new();
+        readonly Toaster toaster = new();
+        readonly Placeholder placeholder = new();
         readonly Nothing nothing = new();
         Blueprints _choosenBlueprint;
         public Production()
         {
             blueprints.Add(car);
             blueprints.Add(wheel);
+            blueprints.Add(toaster);
         }
         public void GetMaterial(List<Material> materialsToFactory)
         {
             materialsForProduction.AddRange(materialsToFactory);
         }
-        public void CheckMaterialRequirements()
+        public void AddBlueprint(Blueprints input)
+        {
+            blueprints.Add(input);
+        }
+        public void CheckMaterialRequirements() //Checks through our list of blueprints
         {
             bool stillCheckingRequirements = true;
             while (stillCheckingRequirements)
@@ -54,8 +61,8 @@ namespace MegaMakingMachine
                     if (itemsReservedForProduct.Count == choosenBlueprint.RequiredMaterial.Count)
                     {
                         _choosenBlueprint = choosenBlueprint;
-                        Console.WriteLine($"Name of choosenBlueprint was: {choosenBlueprint.Name}");
-                        System.Threading.Thread.Sleep(1000);
+                        Console.WriteLine($"Blueprint matching materials: {choosenBlueprint.Name}");
+                        System.Threading.Thread.Sleep(2000);
                         stillCheckingRequirements = false;
                         break;
                     }
@@ -65,7 +72,7 @@ namespace MegaMakingMachine
                         _choosenBlueprint = null;
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();
-                        if (i1 == blueprints.Count-1)
+                        if (i1 == blueprints.Count - 1)
                         {
                             Console.WriteLine("Could not find any suitable blueprints.");
                             System.Threading.Thread.Sleep(2000);
@@ -82,11 +89,21 @@ namespace MegaMakingMachine
             if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && _choosenBlueprint.Name != "nothing")
             {
                 Console.WriteLine($"You made a {choosenBlueprint.Name}");
-                productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.Name));
-                itemsReservedForProduct.Clear();
-                System.Threading.Thread.Sleep(1500);
-                Console.WriteLine("Returning items to storage");
-                System.Threading.Thread.Sleep(1500);
+                try
+                {
+                    productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.Name));
+                    itemsReservedForProduct.Clear();
+                    System.Threading.Thread.Sleep(1500);
+                    Console.WriteLine("Returning items to storage");
+                    System.Threading.Thread.Sleep(1500);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine($"We dont have any room in the storage for a {choosenBlueprint.Name} so i guess you have to take it with you.");
+                    itemsReservedForProduct.Clear();
+                    System.Threading.Thread.Sleep(15000);
+                }
+
             }
             else
             {

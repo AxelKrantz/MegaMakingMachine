@@ -12,7 +12,7 @@ namespace MegaMakingMachine
     {
         readonly Storage storage = new();
         readonly Production production = new();
-         public void ShowStorage()
+        public void ShowStorage()
         {
             storage.ShowStorage();
         }
@@ -24,6 +24,19 @@ namespace MegaMakingMachine
         {
             production.GetMaterial(storage.UserPicksMaterial());
             production.productsToStorage.Clear();
+        }
+        public void CreateBlueprint()
+        {
+            var tempBlueprint = storage.CreateBlueprint();
+            production.AddBlueprint(tempBlueprint);
+
+            if (tempBlueprint != null)
+            {
+                production.productsToStorage.Clear();
+                ShowStorage();
+                production.GetMaterial(storage.UserPicksMaterial());
+            }
+
         }
         public void ClearSentMaterials()
         {
