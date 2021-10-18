@@ -32,9 +32,9 @@ namespace MegaMakingMachine
 
             if (tempBlueprint != null)
             {
-                production.productsToStorage.Clear();
                 ShowStorage();
                 production.GetMaterial(storage.UserPicksMaterial());
+                production.productsToStorage.Clear();
             }
 
         }

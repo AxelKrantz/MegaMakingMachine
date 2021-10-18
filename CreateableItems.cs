@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace MegaMakingMachine
 {
-    abstract class Blueprints
+    abstract class CreateableItems
     {
         public virtual List<Material> RequiredMaterial { get; set; }
         public virtual string Name { get; set; }
     }
-    class Car : Blueprints
+    class Car : CreateableItems
     {
         public override string Name { get; set; }
         public override List<Material> RequiredMaterial { get; set; }
@@ -21,7 +21,7 @@ namespace MegaMakingMachine
             RequiredMaterial = new List<Material> { Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
         }
     }
-    class Wheel : Blueprints
+    class Wheel : CreateableItems
     {
         public override string Name { get; set; }
         public override List<Material> RequiredMaterial { get; set; }
@@ -31,7 +31,7 @@ namespace MegaMakingMachine
             RequiredMaterial = new List<Material> { Material.steel, Material.rubber };
         }
     }
-    class Toaster : Blueprints
+    class Toaster : CreateableItems
     {
         public override string Name { get; set; }
         public override List<Material> RequiredMaterial { get; set; }
@@ -41,7 +41,7 @@ namespace MegaMakingMachine
             RequiredMaterial = new List<Material> { Material.steel, Material.steel };
         }
     }
-    class Placeholder : Blueprints
+    class Placeholder : CreateableItems
     {
         public override string Name { get; set; }
         public override List<Material> RequiredMaterial { get; set; }
@@ -55,7 +55,7 @@ namespace MegaMakingMachine
 
         }
     }
-    class Nothing : Blueprints //special case to deal with the issue when no blueprint fits the input materials 
+    class Nothing : CreateableItems //special case to deal with the issue when no blueprint fits the input materials 
     {
         public override string Name { get; set; }
         public override List<Material> RequiredMaterial { get; set; }

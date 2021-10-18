@@ -10,14 +10,14 @@ namespace MegaMakingMachine
     class Production
     {
         readonly List<Material> materialsForProduction = new(), itemsReservedForProduct = new();
-        readonly List<Blueprints> blueprints = new();
+        readonly List<CreateableItems> blueprints = new();
         public List<Material> productsToStorage = new();
         readonly Wheel wheel = new();
         readonly Car car = new();
         readonly Toaster toaster = new();
         readonly Placeholder placeholder = new();
         readonly Nothing nothing = new();
-        Blueprints _choosenBlueprint;
+        CreateableItems _choosenBlueprint;
         public Production()
         {
             blueprints.Add(car);
@@ -28,7 +28,7 @@ namespace MegaMakingMachine
         {
             materialsForProduction.AddRange(materialsToFactory);
         }
-        public void AddBlueprint(Blueprints input)
+        public void AddBlueprint(CreateableItems input)
         {
             blueprints.Add(input);
         }
