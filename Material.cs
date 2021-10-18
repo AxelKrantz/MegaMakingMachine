@@ -9,7 +9,6 @@ namespace MegaMakingMachine
 {
     enum Material
     {
-        steel, rubber, wheel, car, toaster
+        steel, rubber, wheel, car, toaster, rubberboots, steeltippedrubberboots
     }
-
 }

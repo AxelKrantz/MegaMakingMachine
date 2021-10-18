@@ -14,8 +14,8 @@ namespace MegaMakingMachine
         public List<Material> MaterialToFactory { get; set; } = new();
         public Storage() //Storage fills up on creation.  
         {
-            int steelInStorage = 6;
-            int rubberInStorage = 6;
+            int steelInStorage = 8;
+            int rubberInStorage = 8;
             for (int i = 0; i < steelInStorage; i++)
             {
                 materialInStorage.Add(Material.steel);

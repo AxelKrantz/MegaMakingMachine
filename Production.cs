@@ -10,45 +10,48 @@ namespace MegaMakingMachine
     class Production
     {
         readonly List<Material> materialsForProduction = new(), itemsReservedForProduct = new();
-        readonly List<CreateableItems> blueprints = new();
+        List<ICreateableItems> blueprints = new();
         public List<Material> productsToStorage = new();
         readonly Wheel wheel = new();
         readonly Car car = new();
         readonly Toaster toaster = new();
         readonly Placeholder placeholder = new();
         readonly Nothing nothing = new();
-        CreateableItems _choosenBlueprint;
+        readonly Rubberboots rubberboots = new();
+        readonly Steeltipped steeltipped = new();
+        ICreateableItems _choosenBlueprint;
         public Production()
         {
             blueprints.Add(car);
             blueprints.Add(wheel);
             blueprints.Add(toaster);
+            blueprints.Add(rubberboots);
+            blueprints.Add(steeltipped);
         }
         public void GetMaterial(List<Material> materialsToFactory)
         {
             materialsForProduction.AddRange(materialsToFactory);
         }
-        public void AddBlueprint(CreateableItems input)
+        public void AddBlueprint(ICreateableItems input)
         {
             blueprints.Add(input);
+        }
+        public void BlueprintSort()
+        {
+            blueprints = blueprints.OrderByDescending(blueprints => blueprints.RequiredMaterial.Count).ToList();
         }
         public void CheckMaterialRequirements() //Checks through our list of blueprints
         {
             bool stillCheckingRequirements = true;
             while (stillCheckingRequirements)
             {
-
                 for (int i1 = 0; i1 < blueprints.Count; i1++)
                 {
-
                     var choosenBlueprint = blueprints[i1];
-
                     for (int y = 0; y < choosenBlueprint.RequiredMaterial.Count; y++)
                     {
-
                         for (int i = materialsForProduction.Count - 1; i >= 0; i--)
                         {
-
                             if (choosenBlueprint.RequiredMaterial[y] == materialsForProduction[i])
                             {
                                 itemsReservedForProduct.Add(materialsForProduction[i]);
@@ -56,7 +59,6 @@ namespace MegaMakingMachine
                                 break;
                             }
                         }
-
                     }
                     if (itemsReservedForProduct.Count == choosenBlueprint.RequiredMaterial.Count)
                     {
@@ -68,7 +70,6 @@ namespace MegaMakingMachine
                     }
                     else
                     {
-
                         _choosenBlueprint = null;
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();

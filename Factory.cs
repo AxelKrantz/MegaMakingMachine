@@ -16,6 +16,10 @@ namespace MegaMakingMachine
         {
             storage.ShowStorage();
         }
+        public void BlueprintSort()
+        {
+            production.BlueprintSort();
+        }
         public void UserPicksMaterial()
         {
             storage.UserPicksMaterial();
@@ -28,15 +32,13 @@ namespace MegaMakingMachine
         public void CreateBlueprint()
         {
             var tempBlueprint = storage.CreateBlueprint();
-            production.AddBlueprint(tempBlueprint);
-
             if (tempBlueprint != null)
             {
+                production.AddBlueprint(tempBlueprint);
                 ShowStorage();
                 production.GetMaterial(storage.UserPicksMaterial());
                 production.productsToStorage.Clear();
             }
-
         }
         public void ClearSentMaterials()
         {
