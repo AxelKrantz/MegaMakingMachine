@@ -11,59 +11,49 @@ namespace MegaMakingMachine
         public List<Material> RequiredMaterial { get; set; }
         public string Name { get; set; }
     }
-    class Car : ICreateableItems
+    class Car : Material, ICreateableItems
     {
-        public string Name { get; set; }
+        public override string Name { get; set; }
         public List<Material> RequiredMaterial { get; set; }
         public Car()
         {
             Name = "car";
-            RequiredMaterial = new List<Material> { Material.steel, Material.steel, Material.wheel, Material.wheel, Material.wheel, Material.wheel };
+            RequiredMaterial = new List<Material> { new Metal(), new Metal(), new Wheel(), new Wheel(), new Wheel(), new Wheel() };
         }
     }
-    class Wheel : ICreateableItems
+    class Wheel : Material, ICreateableItems
     {
-        public string Name { get; set; }
+        public override string Name { get; set; }
         public List<Material> RequiredMaterial { get; set; }
         public Wheel()
         {
             Name = "wheel";
-            RequiredMaterial = new List<Material> { Material.steel, Material.rubber };
+            RequiredMaterial = new List<Material> { new Rubber(), new Steel() };
         }
     }
-    class Toaster : ICreateableItems
+    class Toaster : Material, ICreateableItems
     {
-        public string Name { get; set; }
+        public override string Name { get; set; }
         public List<Material> RequiredMaterial { get; set; }
         public Toaster()
         {
             Name = "toaster";
-            RequiredMaterial = new List<Material> { Material.steel, Material.steel };
+            RequiredMaterial = new List<Material> { new Metal(), new Steel() };
         }
     }
-    class Rubberboots : ICreateableItems
+    class Rubberboots : Material, ICreateableItems
     {
-        public string Name { get; set; }
+        public override string Name { get; set; }
         public List<Material> RequiredMaterial { get; set; }
         public Rubberboots()
         {
             Name = "rubberboots";
-            RequiredMaterial = new List<Material> { Material.rubber, Material.rubber };
+            RequiredMaterial = new List<Material> { new Rubber(), new Rubber() };
         }
     }
-    class Steeltipped : ICreateableItems
+    class Placeholder : Material, ICreateableItems
     {
-        public string Name { get; set; }
-        public List<Material> RequiredMaterial { get; set; }
-        public Steeltipped()
-        {
-            Name = "steeltippedrubberboots";
-            RequiredMaterial = new List<Material> { Material.rubberboots, Material.steel };
-        }
-    }
-    class Placeholder : ICreateableItems
-    {
-        public string Name { get; set; }
+        public override string Name { get; set; }
         public List<Material> RequiredMaterial { get; set; }
         public Placeholder(string name, List<Material> requiredMaterial)
         {

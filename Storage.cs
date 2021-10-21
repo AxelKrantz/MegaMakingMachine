@@ -16,28 +16,33 @@ namespace MegaMakingMachine
         {
             int steelInStorage = 8;
             int rubberInStorage = 8;
+            int ironInStorage = 5;
             for (int i = 0; i < steelInStorage; i++)
             {
-                materialInStorage.Add(Material.steel);
+                materialInStorage.Add(new Steel());
             }
             for (int i = 0; i < rubberInStorage; i++)
             {
-                materialInStorage.Add(Material.rubber);
+                materialInStorage.Add(new Rubber());
+            }
+            for (int i = 0; i < ironInStorage; i++)
+            {
+                materialInStorage.Add(new Iron());
             }
         }
         public void ShowStorage() //Shows the items we have in the storage aswell as the items going to the factory
         {
-            materialInStorage.Sort();
+
             Console.Clear();
             Console.WriteLine("These items are currently in storage:");
-            foreach (Material item in materialInStorage)
+            foreach (var item in materialInStorage)
             {
-                Console.WriteLine($"-{item}");
+                Console.WriteLine($"-{item.Name}");
             }
             Console.WriteLine("\nThese are the items headed to the factory:");
             foreach (Material item in MaterialToFactory)
             {
-                Console.WriteLine($"-{item}");
+                Console.WriteLine($"-{item.Name}");
             }
         }
         public Placeholder CreateBlueprint() //This method is only used if you want to create your own blueprint. 
@@ -53,21 +58,26 @@ namespace MegaMakingMachine
                 while (true)
                 {
                     selection = Console.ReadLine().ToLower();
-                    try
+                    int numbersInList = tempList.Count;
+                    foreach (Material item in materialInStorage)
                     {
-                        var materialChoice = Enum.Parse(typeof(Material), selection);
-                        tempList.Add((Material)materialChoice);
-                    }
-                    catch (Exception)
-                    {
-                        if (selection == "finish")
+                        if (selection == item.Name)
                         {
-                            Placeholder userMadeBlueprint = new(tempName, tempList);
-                            return userMadeBlueprint;
+                            tempList.Add(item);
+                            break;
                         }
-                        Console.WriteLine("Incorrect Entry, try again.");
-                        System.Threading.Thread.Sleep(1500);
                     }
+                    if (selection == "finish")
+                    {
+                        Placeholder userMadeBlueprint = new(tempName, tempList);
+                        UserCreated usercreated = new(tempName);
+                        return userMadeBlueprint;
+                    }
+                    else if (numbersInList == tempList.Count)
+                    {
+                        Console.WriteLine("Incorrect Entry, try again.");
+                    }
+                    System.Threading.Thread.Sleep(1500);
                 }
             }
             return null;
@@ -84,10 +94,9 @@ namespace MegaMakingMachine
                 if (selection == "blueprint") { youHaveChoosenBlueprintCreation = true; return MaterialToFactory; }
                 try
                 {
-                    var materialChoice = Enum.Parse(typeof(Material), selection);
                     for (int i = 0; i < materialInStorage.Count; i++)
                     {
-                        if ((Material)materialChoice == materialInStorage[i])
+                        if (selection == materialInStorage[i].Name)
                         {
                             MaterialToFactory.Add(materialInStorage[i]);
                             materialInStorage.RemoveAt(i);

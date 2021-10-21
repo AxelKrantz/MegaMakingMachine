@@ -10,24 +10,11 @@ namespace MegaMakingMachine
     class Production
     {
         readonly List<Material> materialsForProduction = new(), itemsReservedForProduct = new();
-        List<ICreateableItems> blueprints = new();
+        List<ICreateableItems> blueprints = new() { new Car(), new Wheel(), new Toaster() };
         public List<Material> productsToStorage = new();
-        readonly Wheel wheel = new();
-        readonly Car car = new();
-        readonly Toaster toaster = new();
         readonly Placeholder placeholder = new();
         readonly Nothing nothing = new();
-        readonly Rubberboots rubberboots = new();
-        readonly Steeltipped steeltipped = new();
         ICreateableItems _choosenBlueprint;
-        public Production()
-        {
-            blueprints.Add(car);
-            blueprints.Add(wheel);
-            blueprints.Add(toaster);
-            blueprints.Add(rubberboots);
-            blueprints.Add(steeltipped);
-        }
         public void GetMaterial(List<Material> materialsToFactory)
         {
             materialsForProduction.AddRange(materialsToFactory);
@@ -45,14 +32,15 @@ namespace MegaMakingMachine
             bool stillCheckingRequirements = true;
             while (stillCheckingRequirements)
             {
-                for (int i1 = 0; i1 < blueprints.Count; i1++)
+                for (int j = 0; j < blueprints.Count; j++)
                 {
-                    var choosenBlueprint = blueprints[i1];
+                    var choosenBlueprint = blueprints[j];
                     for (int y = 0; y < choosenBlueprint.RequiredMaterial.Count; y++)
                     {
                         for (int i = materialsForProduction.Count - 1; i >= 0; i--)
                         {
-                            if (choosenBlueprint.RequiredMaterial[y] == materialsForProduction[i])
+                            var temp = choosenBlueprint.RequiredMaterial[y].GetType();
+                            if (choosenBlueprint.RequiredMaterial[y]._typeOfMaterial == materialsForProduction[i]._typeOfMaterial)
                             {
                                 itemsReservedForProduct.Add(materialsForProduction[i]);
                                 materialsForProduction.RemoveAt(i);
@@ -64,7 +52,6 @@ namespace MegaMakingMachine
                     {
                         _choosenBlueprint = choosenBlueprint;
                         Console.WriteLine($"Blueprint matching materials: {choosenBlueprint.Name}");
-                        System.Threading.Thread.Sleep(2000);
                         stillCheckingRequirements = false;
                         break;
                     }
@@ -73,10 +60,9 @@ namespace MegaMakingMachine
                         _choosenBlueprint = null;
                         materialsForProduction.AddRange(itemsReservedForProduct);
                         itemsReservedForProduct.Clear();
-                        if (i1 == blueprints.Count - 1)
+                        if (j == blueprints.Count - 1)
                         {
                             Console.WriteLine("Could not find any suitable blueprints.");
-                            System.Threading.Thread.Sleep(2000);
                             _choosenBlueprint = nothing;
                             stillCheckingRequirements = false;
                         }
@@ -87,29 +73,50 @@ namespace MegaMakingMachine
         public void ProduceGoods()
         {
             var choosenBlueprint = _choosenBlueprint;
+            
             if (choosenBlueprint.RequiredMaterial.Count == itemsReservedForProduct.Count && _choosenBlueprint.Name != "nothing")
             {
-                Console.WriteLine($"You made a {choosenBlueprint.Name}");
-                try
-                {
-                    productsToStorage.Add((Material)Enum.Parse(typeof(Material), choosenBlueprint.Name));
-                    itemsReservedForProduct.Clear();
-                    System.Threading.Thread.Sleep(1500);
-                    Console.WriteLine("Returning items to storage");
-                    System.Threading.Thread.Sleep(1500);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine($"We dont have any room in the storage for a {choosenBlueprint.Name} so i guess you have to take it with you.");
-                    itemsReservedForProduct.Clear();
-                    System.Threading.Thread.Sleep(15000);
-                }
 
+                Console.WriteLine($"You made a {ReturnMaterialOfType(itemsReservedForProduct)} {choosenBlueprint.Name}");
+                
             }
             else
             {
                 Console.WriteLine($"You made {_choosenBlueprint.Name}");
                 System.Threading.Thread.Sleep(1500);
+            }
+            StorageHandler(choosenBlueprint);
+        }
+        public string ReturnMaterialOfType(List<Material> input)
+        {
+            foreach (Material item in input)
+            {
+                if (item._typeOfMaterial == MaterialType.Metal)
+                {
+                    return item.Name;
+                }
+            }
+            return "";
+        }
+        public void StorageHandler(ICreateableItems choosenBlueprint)
+        {
+            try
+            {
+                productsToStorage.Add((Material)choosenBlueprint);
+                itemsReservedForProduct.Clear();
+                System.Threading.Thread.Sleep(1500);
+                Console.WriteLine("Returning items to storage");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"We dont have any room in the storage for a {choosenBlueprint.Name} so I guess you have to take it with you.");
+                itemsReservedForProduct.Clear();
+            }
+            finally
+            {
+                System.Threading.Thread.Sleep(1500);
+                Console.WriteLine("press any key to continue");
+                Console.ReadKey(true);
             }
         }
         public List<Material> SendProductsToStorage()
