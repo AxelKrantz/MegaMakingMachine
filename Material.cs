@@ -7,8 +7,46 @@ using System.Threading.Tasks;
 //Materials contains materials. Logically.
 namespace MegaMakingMachine
 {
-    enum Material
+    abstract class Material
     {
-        steel, rubber, wheel, car, toaster, rubberboots, steeltippedrubberboots
+        public MaterialType _typeOfMaterial;
+        public virtual string Name { get; set; }
+    }
+    class Rubber : Material
+    {
+        
+        public Rubber()
+        {
+            _typeOfMaterial = MaterialType.Rubber;
+            Name = "rubber";
+        }
+    }
+    class Metal : Material
+    {
+
+    }
+    class Steel : Metal
+    {
+
+        public Steel()
+        {
+            _typeOfMaterial = MaterialType.Metal;
+            Name = "steel";
+        }
+    }
+    class Iron : Metal
+    {
+        public Iron()
+        {
+            Name = "iron";
+            _typeOfMaterial = MaterialType.Metal;
+        }
+    }
+    class UserCreated : Material
+    {
+        public UserCreated(string name)
+        {
+            Name = name;
+        }
     }
 }
